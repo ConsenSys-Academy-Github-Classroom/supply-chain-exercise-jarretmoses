@@ -178,13 +178,13 @@ contract SupplyChain {
 
     uint refund = msg.value - itemToBuy.price;
 
-    // Send ETH to buyer
-    (bool success, ) = itemToBuy.seller.call.value(itemToBuy.price)("");
-
-    require(success, "Sale failed");
-
     itemToBuy.state = State.Sold;
     itemToBuy.buyer = msg.sender;
+
+    // Send ETH to buyer
+    (bool saleSuccess, ) = itemToBuy.seller.call.value(itemToBuy.price)("");
+
+    require(saleSuccess, "Sale failed");
 
     // Send Refund
     (bool refundSuccess, ) = msg.sender.call.value(refund)("");
