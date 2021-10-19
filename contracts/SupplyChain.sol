@@ -91,13 +91,12 @@ contract SupplyChain {
     _;
   }
 
-  modifier paidEnough(uint _price) {
-    require(msg.value >= _price);
+  modifier paidEnough(uint sku) {
+    require(msg.value >= items[sku].price);
     _;
   }
 
   modifier checkValue(uint _sku) {
-    //refund them after pay for item (why it is before, _ checks for logic before func)
     _;
     uint _price = items[_sku].price;
     uint amountToRefund = msg.value - _price;
